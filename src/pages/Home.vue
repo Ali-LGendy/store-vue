@@ -1,11 +1,14 @@
 <template>
-    <div class="max-w-7xl mx-auto px-2 md:px-4 py-8">
+    <div v-if="store.loading">Loading...</div>
+    <div v-else-if="store.error" class="text-red-500">{{ store.error }}</div>
+    <div v-else-if="filteredProducts" class="max-w-7xl mx-auto px-2 md:px-4 py-8">
       <h1 class="text-3xl font-bold text-indigo-700 mb-8">Our Products</h1>
   
       <SearchBar v-model="searchTerm" />
   
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        <div
+        <RouterLink
+          :to="{ name: 'details', params: { id: product.id.toString() } }"
           v-for="product in filteredProducts"
           :key="product.id"
           class="bg-white rounded-lg shadow-md hover:shadow-xl transition duration-300 overflow-hidden flex flex-col"
@@ -31,13 +34,14 @@
               <p class="text-lg font-bold text-indigo-600">${{ product.price.toFixed(2) }}</p>
             </div>
           </div>
-        </div>
+        </RouterLink>
       </div>
     </div>
 </template>
   
 <script setup>
   import { ref, computed, onMounted } from 'vue'
+  import { RouterLink } from 'vue-router'
   import { useProductStore } from '@/stores/productStore'
   import SearchBar from '@/components/SearchBar.vue'
   

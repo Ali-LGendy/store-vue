@@ -5,6 +5,7 @@ export const useProductStore = defineStore("product", {
   state: () => ({
     products: [],
     cart: [],
+    productDetail: null,
     loading: false,
     error: null,
   }),
@@ -55,7 +56,7 @@ export const useProductStore = defineStore("product", {
         this.error = null;
         try {
             const response = await axios.get(`https://fakestoreapi.com/products/${id}`);
-            this.products[id] = response.data;
+            this.productDetail = response.data;
         } catch (error) {
             this.error = error.message;
         } finally {

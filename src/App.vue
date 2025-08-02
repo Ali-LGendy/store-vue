@@ -4,11 +4,15 @@
 </script>
 
 <template>
-  <dev>
+  <div class="min-h-screen flex flex-col">
     <Navbar v-if="!$route.meta.hideNavbar" />
-    <router-view />
+    
+    <main class="flex-1">
+      <router-view />
+    </main>
+    
     <Footer v-if="!$route.meta.hideFooter" />
-  </dev>
+  </div>
 </template>
 
 <style scoped>
