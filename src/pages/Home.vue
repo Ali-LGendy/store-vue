@@ -2,9 +2,11 @@
     <div class="max-w-7xl mx-auto px-2 md:px-4 py-8">
       <h1 class="text-3xl font-bold text-indigo-700 mb-8">Our Products</h1>
   
+      <SearchBar v-model="searchTerm" />
+  
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         <div
-          v-for="product in store.products"
+          v-for="product in filteredProducts"
           :key="product.id"
           class="bg-white rounded-lg shadow-md hover:shadow-xl transition duration-300 overflow-hidden flex flex-col"
         >
@@ -34,19 +36,23 @@
     </div>
 </template>
   
-  
-  
 <script setup>
-    import { useProductStore } from '@/stores/productStore';
-    import { onMounted } from 'vue'
-
-    const store = useProductStore();
-
-    onMounted(() => {
-        store.fetchProducts();
-    })
-</script>
-
-<style>
-
-</style>
+  import { ref, computed, onMounted } from 'vue'
+  import { useProductStore } from '@/stores/productStore'
+  import SearchBar from '@/components/SearchBar.vue'
+  
+  const store = useProductStore()
+  const searchTerm = ref('')
+  
+  onMounted(() => {
+    store.fetchProducts()
+  })
+  
+  const filteredProducts = computed(() => {
+    return store.products.filter(product =>
+      product.title.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
+      product.description.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
+      product.category.toLowerCase().includes(searchTerm.value.toLowerCase())
+    )
+  })
+</script> 
