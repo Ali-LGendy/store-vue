@@ -4,7 +4,6 @@
       <div v-else-if="store.error" class="text-center text-red-500">{{ store.error }}</div>
   
       <div v-else-if="store.productDetail && store.productDetail.id" class="flex flex-col md:flex-row gap-10 items-start">
-        <!-- Product Image -->
         <div class="w-full md:w-1/2 bg-white rounded-xl shadow-lg p-8 flex items-center justify-center">
           <img
             :src="store.productDetail.image"
